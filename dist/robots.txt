@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://bebopuente.github.io/industrialsuite-web/sitemap.xml

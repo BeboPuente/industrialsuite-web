@@ -1,0 +1,1 @@
+{"name":"industrialsuite-web","version":"1.0.0","private":true,"type":"module","scripts":{"preview":"node scripts/preview.mjs","check":"node scripts/check.mjs"},"description":"Sitio corporativo estático independiente de IndustrialSuite, sin dependencias de ejecución."}

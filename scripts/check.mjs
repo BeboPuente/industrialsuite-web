@@ -1,0 +1,6 @@
+import {readFile,readdir,stat} from 'node:fs/promises';
+import {resolve,dirname} from 'node:path';
+const root=resolve(import.meta.dirname,'../dist');let links=0,pages=0;
+for(const name of await readdir(root))if(name.endsWith('.html')){pages++;const html=await readFile(resolve(root,name),'utf8');for(const marker of ['<html lang="es">','name="viewport"','<title>','name="description"','<main','<h1'])if(!html.includes(marker))throw Error(`${name}: falta ${marker}`);for(const match of html.matchAll(/(?:href|src)="([^"#]+)(#[^"]*)?"/g)){const url=match[1];if(/^(https?:|mailto:|data:)/.test(url))continue;const file=resolve(dirname(resolve(root,name)),url.endsWith('/')?url+'index.html':url);if(!file.startsWith(root))throw Error('Ruta fuera del sitio');await stat(file);links++;}for(const forbidden of ['C:\\Users\\','C:\\workspace\\','10.0.0.2','192.168.','BEGIN PRIVATE KEY','IndustrialSuiteMetadata'])if(html.includes(forbidden))throw Error(`${name}: contenido privado no permitido`);}
+const js=await readFile(resolve(root,'assets/site.js'),'utf8');if(/fetch\(|XMLHttpRequest|localStorage|document\.cookie/.test(js))throw Error('Recogida de datos no prevista');
+console.log(JSON.stringify({pages,localLinksChecked:links,privateReferences:false,tracking:false,passed:true}));
